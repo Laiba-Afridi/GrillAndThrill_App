@@ -25,11 +25,9 @@ const TrackOrderItems = ({ foodDataAll, data, navigation }) => {
     }
 
     useEffect(() => {
-
         getuserData();
     }, [userloggeduid]);
 
-    // console.log('user is ', user.totalCoin - 5)
 
     useEffect(() => {
         // Fetch data from Firebase
@@ -37,9 +35,7 @@ const TrackOrderItems = ({ foodDataAll, data, navigation }) => {
             const foodRef = firebase.firestore().collection('OrderItems').doc(data);
 
             foodRef.onSnapshot(doc => {
-                // setOrderData(snapshot.docs.map(doc => doc.data().cartItems))
-
-                // console.log('dekh veere',doc.data() )
+              
                 setOrderData(doc.data().cartItems)
             }
             )
@@ -56,18 +52,14 @@ const TrackOrderItems = ({ foodDataAll, data, navigation }) => {
         <View>
 
             {orderData && orderData.map((order, index) => (
-                 <View key={index} 
-                //  style={{ borderRadius: 20, backgroundColor: '#f2f2f2', width: '95%', alignSelf: 'center', marginVertical: 2, elevation: 2 }}
-                 >
-
-    
+                 <View key={index} >
                  <FlatList
 
                      data={getDta(order.item_id)}
 
                      renderItem={
                          ({ item }) => {
-                             console.log('ye dekh veer23123123', item)
+                             
                              return (
                                  <View style={styles.orderItemContainer}>
                                      <View>
@@ -77,7 +69,7 @@ const TrackOrderItems = ({ foodDataAll, data, navigation }) => {
                                      <View style={styles.orderItemContainer_2}>
                                          <View>
                                              <Text style={styles.orderItemName}>{item.FoodName}</Text>
-                                             <Text style={styles.orderItemPrice} >${item.FoodPrice}</Text>
+                                             <Text style={styles.orderItemPrice} >Rs {item.FoodPrice}</Text>
                                              <Text>Qty : {order.FoodQuantity} unit </Text>
 
                                          </View>

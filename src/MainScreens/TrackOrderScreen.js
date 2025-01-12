@@ -26,7 +26,6 @@ const TrackOrderScreen = ({navigation}) => {
   }, [])
 
   useEffect(() => {
-    // Fetch data from Firebase
     const fetchData = async () => {
       const foodRef = firebase.firestore().collection('OrderItems');
 
@@ -40,7 +39,6 @@ const TrackOrderScreen = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    // Fetch data from Firebase
     const fetchData = async () => {
       const foodRef = firebase.firestore().collection('FoodData');
 
@@ -54,85 +52,29 @@ const TrackOrderScreen = ({navigation}) => {
   }, []);
 
 
-  // console.log(' yha par dikat hai,', orders)
+
   return (
     <View style={styles.container}>
-      <View style={{ backgroundColor: '#FF3F00', paddingVertical: 15, paddingHorizontal: 15, marginTop: 30 }}>
-        <TouchableOpacity>
-
-          <Text style={{ color: 'white' }}>Close</Text>
-        </TouchableOpacity>
+      <View style={{ backgroundColor: '#080f17', paddingVertical: 15, paddingHorizontal: 15, marginTop: 30 }}>
       </View>
 
-
       <ScrollView>
-        <Text style={styles.mainHeading}>My Orders1</Text>
+        <Text style={styles.mainHeading}>My Orders</Text>
         <View style={styles.mainContainer}>
           {
             orders.map((order, index) => {
               return (
                 <View key={index}>
                   <Text style={styles.orderId}>Order id : {(order.orderid).substring(0, 15)}</Text>
-                  <Text style={styles.orderTime}>Time : 4:10 AM </Text>
 
                   <TrackOrderItems foodDataAll={foodDataAll} data={order.orderid} navigation={navigation} />
-                  {/* Yha use karenge component ko */}
-                  <Text style={styles.orderTotal}>Total : ${order.ordercost}</Text>
+        
+                  <Text style={styles.orderTotal}>Total : {order.ordercost}</Text>
                 </View>
               )
             })
 
           }
-
-
-          {/* <View style={styles.orderItemContainer}>
-            <View>
-              <Image source={require('../Images/pizza1.jpg')} style={styles.cardimage} />
-            </View>
-
-            <View style={styles.orderItemContainer_2}>
-              <View>
-                <Text style={styles.orderItemName}>Pizza</Text>
-                <Text style={styles.orderItemPrice} >150$</Text>
-                <Text>Qty : 1 unit</Text>
-
-              </View>
-            </View>
-          </View> */}
-
-          {/* <View style={styles.orderItemContainer}>
-            <View>
-              <Image source={require('../Images/pizza2.jpg')} style={styles.cardimage} />
-            </View>
-
-            <View style={styles.orderItemContainer_2}>
-              <View>
-                <Text style={styles.orderItemName}>Pizza Samosa</Text>
-                <Text style={styles.orderItemPrice} >350$</Text>
-                <Text>Qty : 1 unit</Text>
-
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.orderItemContainer}>
-            <View>
-              <Image source={require('../Images/pizza3.jpg')} style={styles.cardimage} />
-            </View>
-
-            <View style={styles.orderItemContainer_2}>
-              <View>
-                <Text style={styles.orderItemName}>Pizza with no Pizza</Text>
-                <Text style={styles.orderItemPrice} >7000$</Text>
-                <Text>Qty : 1 unit</Text>
-
-              </View>
-            </View>
-          </View> */}
-
-
-
-
 
         </View>
       </ScrollView>
@@ -140,26 +82,29 @@ const TrackOrderScreen = ({navigation}) => {
   )
 }
 
-export default TrackOrderScreen
+export default TrackOrderScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor:'#ffffe3'
   },
   mainHeading: {
-    fontSize: 20,
+    fontSize: 25,
     paddingHorizontal: 15,
     paddingVertical: 10,
-    fontWeight: '500'
+    fontWeight: '800',
+    color:'#9d0000'
   },
 
   mainContainer: {
     marginBottom: 10,
     marginHorizontal: 10,
     elevation: 2,
-    backgroundColor: 'white',
     paddingVertical: 5,
-    borderRadius: 20
+    borderRadius: 20,
+    backgroundColor:'white',
+
   },
   orderId: {
     fontSize: 16,
@@ -180,16 +125,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
     fontWeight: '600'
   },
-  orderItemContainer: {
-    flexDirection: 'row',
-    backgroundColor: 'green',
-    marginVertical: 2,
-    width: '95%',
-    alignSelf: 'center',
-    borderRadius: 20,
-    backgroundColor: '#f2f2f2',
-    elevation: 2
-  },
+
   cardimage: {
     width: 90,
     height: 80,
@@ -206,8 +142,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600'
   },
-  orderItemPrice: {
 
-  }
-
-})
+});

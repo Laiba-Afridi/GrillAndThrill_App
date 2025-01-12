@@ -1,106 +1,156 @@
-import { StyleSheet, Text, Touchable, TouchableOpacity, View, Image, ScrollView, FlatList, SafeAreaView } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, Image, FlatList, SafeAreaView, TextInput, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState } from 'react';
+import Categories from './Categories';
 
-const CardSlider = ({ navigation, data }) => {
+const CardSlider = ({ navigation }) => {
+    const [foodData, setFoodData] = useState([]); 
+    const [searchQuery, setSearchQuery] = useState(''); 
+    const [filteredData, setFilteredData] = useState([]); 
 
     const openProductHandler = (item) => {
-        navigation.navigate('ProductScreen', item)
-    }
+        navigation.navigate('ProductScreen', item); 
+    };
+
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+
+        // Filter food data based on the search query
+        const filtered = foodData.filter(item => 
+            item.FoodName.toLowerCase().includes(query.toLowerCase())
+        );
+        setFilteredData(filtered); 
+    };
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.cardouthead}>
-            Top Shelf Tastes
-            </Text>
-            <SafeAreaView>
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <View style={styles.container}>
+                    <Categories setFoodData={setFoodData} />
+                    
+                    {/* Enhanced Search Field */}
+                    <View style={styles.searchContainer}>
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="Search food..."
+                            value={searchQuery}
+                            onChangeText={handleSearch}
+                        />
+                    </View>
 
-                <FlatList style={styles.flatliststyle}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal
-                    data={data}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity key={item.index} style={styles.card} onPress={() => { openProductHandler(item) }}>
-                            <View>
-                                <Image source={{ uri: item.FoodImageUrl }} style={styles.cardimage} />
-                            </View>
+                    <Text style={styles.cardouthead}>Top Shelf Tastes</Text>
 
-                            <View style={styles.cardin1}>
-                                <Text style={styles.cardin1txt}>{item.FoodName}</Text>
+                    <SafeAreaView>
+                        <FlatList
+                            style={styles.flatliststyle}
+                            showsVerticalScrollIndicator={false} 
+                            data={filteredData.length > 0 ? filteredData : foodData} 
+                            keyExtractor={(item, index) => index.toString()} 
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    key={item.index}
+                                    style={styles.card}
+                                    onPress={() => openProductHandler(item)}
+                                >
+                                    <View>
+                                        <Image source={{ uri: item.FoodImageUrl }} style={styles.cardimage} />
+                                    </View>
+                                    <View style={styles.cardin1}>
+                                        <Text style={styles.cardin1txt}>{item.FoodName}</Text>
+                                        <View style={styles.cardin2}>
+                                            <Text style={styles.cardin2txt1}>{item.FoodCategory}</Text>
+                                            <Text style={styles.cardin2txt1}>
+                                                Price: <Text>{item.FoodPrice} Rs</Text>
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            )}
+                            contentContainerStyle={{
+                                paddingBottom: 90, 
+                            }}
+                        />
+                    </SafeAreaView>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
+};
 
-                                <View style={styles.cardin2}>
-                                    <Text style={styles.cardin2txt1}>{item.FoodCategory}</Text>
-                                    <Text style={styles.cardin2txt1}>Price:
-                                    <Text> {item.FoodPrice}Rs</Text>
-                                    </Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    )}
-                />
-            </SafeAreaView>
-
-        </View>
-    )
-}
-
-export default CardSlider
+export default CardSlider;
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1, 
         marginVertical: 10,
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
+    },
+    flatliststyle: {
+        flexGrow: 1, 
     },
     cardouthead: {
-        fontSize: 16,
-        fontWeight: '600',
+        fontSize: 25,
+        fontWeight: '800',
         marginHorizontal: 10,
         paddingLeft: 5,
-        color: '#424242'
+        color: '#9d0000',
     },
     cardimage: {
         width: '100%',
         height: 150,
         borderTopLeftRadius: 16,
-        borderTopRightRadius: 16 //17
-
+        borderTopRightRadius: 16,
     },
     card: {
-        width: 300,
+        width: 320,
         height: 200,
-        marginLeft: 5,
+        marginLeft: 15,
         marginTop: 10,
-        borderRadius: 17, //18
-        backgroundColor: '#dedede',
-
+        borderRadius: 17,
+        backgroundColor: '#f9e5e5',
     },
     cardin1: {
         marginHorizontal: 3,
-        marginTop: 3
+        marginTop: 3,
     },
     cardin1txt: {
-        fontSize: 16,
-        fontWeight: '600',
+        fontSize: 17 ,
+        fontWeight: '800',
         marginHorizontal: 5,
-
+        color:'#9d0000'
     },
     cardin2: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: 6
+        marginHorizontal: 6,
     },
     cardin2txt1: {
         fontSize: 12,
         marginRight: 10,
-        fontWeight: '500'
-    },
-    cardin2txt3: {
-        height: 20,
-        borderRadius: 10,
-        backgroundColor: 'green',
-        fontSize: 10,
         fontWeight: '500',
-        color: 'white',
-        textAlign: 'center',
-        justifyContent: 'center',
-        paddingHorizontal: 7
-    }
-})
+    },
+    searchContainer: {
+        marginVertical: 2,
+        marginBottom:15,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        elevation: 4,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        width: '95%', 
+        alignSelf: 'center', 
+    },
+    
+    searchInput: {
+        height: 45,
+        borderRadius: 10,
+        paddingLeft: 15,
+        fontSize: 16,
+        backgroundColor: '#f8f8f8',
+    },
+});
+

@@ -1,8 +1,6 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import Swiper from 'react-native-swiper'
-import { MaterialIcons } from '@expo/vector-icons';
-
 
 const OfferSlider = () => {
     return (
@@ -10,16 +8,9 @@ const OfferSlider = () => {
             <Swiper
                 autoplay={true}
                 autoplayTimeout={3}
-                showButtons={true}
                 removeClippedSubviews={false}
                 dotColor={'red'}
-                activeDotColor={'black'}
-                // nextButton={<MaterialIcons name="arrow-right" size={24} color="black" />}
-                // prevButton={<MaterialIcons name="arrow-left" size={24} color="black" />}
-                nextButton={<Text style={styles.nextButton}>›</Text>}
-                prevButton={<Text style={styles.nextButton}>‹</Text>}
-                // nextButton={<Text style={styles.buttonText}>›</Text>}
-                // prevButton={<Text style={styles.buttonText}>‹</Text>}
+                activeDotColor={'yellow'}
 
             >
                 <View style={styles.slide}>
@@ -27,11 +18,11 @@ const OfferSlider = () => {
                 </View>
                 <View style={styles.slide}>
 
-                    <Image source={require('../Images/sampleImg2.jpeg')} style={styles.image} />
+                    <Image source={require('../Images/b2.png')} style={styles.image} />
                 </View>
                 <View style={styles.slide}>
 
-                    <Image source={require('../Images/sampleImg3.jpeg')} style={styles.image} />
+                    <Image source={require('../Images/b3.png')} style={styles.image} />
                 </View>
 
             </Swiper>
@@ -45,14 +36,14 @@ const styles = StyleSheet.create({
     container: {
         width: '95%',
         height: 150,
-        alignSelf: 'center'
-        // backgroundColor: 'red',
+        alignSelf: 'center',
+        marginTop:20
 
     },
     image: {
         width: '100%',
         height: '100%',
-        borderRadius: 25 //18
+        borderRadius: 25 
     },
     slide : {
         width: '100%',
